@@ -1,0 +1,379 @@
+﻿<UserControl x:Class="Module.Views.Main"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:models="clr-namespace:Module.Models"
+             xmlns:views="clr-namespace:Module.Views"
+             xmlns:viewmodels="clr-namespace:Module.ViewModels"
+             xmlns:converters="clr-namespace:Module.Converters"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             ScrollViewer.VerticalScrollBarVisibility="Auto"
+             ScrollViewer.HorizontalScrollBarVisibility="Auto"
+             d:DataContext="{d:DesignInstance viewmodels:MainViewModel}">
+    <UserControl.Resources>
+        <x:Array x:Key="GrooveLocationTypes_Visible" Type="sys:Int32" 
+            xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            <sys:Int32>2</sys:Int32>
+            <sys:Int32>4</sys:Int32>
+        </x:Array>
+        <x:Array x:Key="PumpingDirectionTypes_Visible" Type="sys:Int32" 
+            xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            <sys:Int32>2</sys:Int32>
+            <sys:Int32>4</sys:Int32>
+        </x:Array>
+        <x:Array x:Key="GrooveTypes_Visible" Type="sys:Int32" 
+            xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            <sys:Int32>4</sys:Int32>
+        </x:Array>
+
+        <x:Array x:Key="BearingIndexMain_Visible" Type="sys:Int32" 
+            xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            <sys:Int32>1</sys:Int32>
+        </x:Array>
+        <x:Array x:Key="BearingIndexSub_Visible" Type="sys:Int32" 
+            xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            <sys:Int32>2</sys:Int32>
+        </x:Array>
+        
+        
+        <sys:Int32 x:Key="PartCountCount_MIN">2</sys:Int32>
+        <sys:Int32 x:Key="PartCountCount_MAX">2</sys:Int32>
+        <ObjectDataProvider x:Key="BearingTypes"
+                            ObjectType="{x:Type models:BearingTypes}"
+                            MethodName="GetBearingTypes"/>
+        <ObjectDataProvider x:Key="GrooveLocationTypes"
+                            ObjectType="{x:Type models:GrooveLocationTypes}"
+                            MethodName="GetGrooveLocationTypes"/>
+        <ObjectDataProvider x:Key="PumpingDirectionTypes"
+                            ObjectType="{x:Type models:PumpingDirectionTypes}"
+                            MethodName="GetPumpingDirectionTypes"/>
+        <ObjectDataProvider x:Key="GrooveTypes"
+                            ObjectType="{x:Type models:GrooveTypes}"
+                            MethodName="GetGrooveTypes"/>
+        <ObjectDataProvider x:Key="ConnectingPositionTypes"
+                            ObjectType="{x:Type models:ConnectingPositionTypes}"
+                            MethodName="GetRecirculationChannelExistence"/>
+
+        <converters:ValueInclusionToVisibilityConverter x:Key="ValueInclusionToVisibilityConverter"/>
+        <!-- TextBlock -->
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="4,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="TextAlignment" Value="Left" />
+            <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+        </Style>
+        
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Background="AliceBlue" ScrollViewer.CanContentScroll="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" MinHeight="200"/>
+                <RowDefinition Height="200" />
+               
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Margin="8, 0" Content="Main" FontSize="22" FontWeight="Bold" />
+            <GroupBox Grid.Row="1" Header="Bearing information" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="2" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Total number of parts : " />
+                        <xctk:IntegerUpDown Grid.ColumnSpan="4" HorizontalAlignment="Stretch" Height="27"
+                                            Value="{Binding Path=PartCount}" 
+                                            Minimum="{StaticResource PartCountCount_MIN}" Maximum="{StaticResource PartCountCount_MAX}" Margin="126,0,74,0" />
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="0" x:Name="PartNo" Grid.Column="0" TextAlignment="Center" Text="Part No." />
+                        <TextBlock Margin="0" x:Name="BearingType" Grid.Column="1" TextAlignment="Center" Text="Bearing type" />
+                        <TextBlock Margin="0" x:Name="GrooveLocation" Grid.Column="2" TextAlignment="Center" Text=" " />
+                        <TextBlock Margin="0" x:Name="PumpingDirection" Grid.Column="3" TextAlignment="Center" Text=" " />
+                        <TextBlock Margin="0" x:Name="GrooveType" Grid.Column="4" TextAlignment="Center" Text=" " />
+                        <TextBlock Margin="0"  Grid.Column="5" TextAlignment="Center" Text="Bearing index" />
+                    </Grid>
+                    <Grid Grid.Row="3">
+                        <ListView x:Name="lvPartList" ItemsSource="{Binding Path=Parts}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="52"/>
+                                            <ColumnDefinition Width="{Binding ElementName=BearingType, Path=ActualWidth}"/>
+                                            <ColumnDefinition Width="{Binding ElementName=GrooveLocation, Path=ActualWidth}"/>
+                                            <ColumnDefinition Width="{Binding ElementName=PumpingDirection, Path=ActualWidth}"/>
+                                            <ColumnDefinition Width="{Binding ElementName=GrooveType, Path=ActualWidth}"/>
+                                            <ColumnDefinition Width="{Binding ElementName=BearingIndex, Path=ActualWidth}"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Margin="0" Grid.Column="0" Height="26" TextAlignment="Center" Text="{Binding Path=PartNo}" />
+                                        <ComboBox Margin="0" Grid.Column="1" ItemsSource="{Binding Source={StaticResource BearingTypes}}"
+                                                  DisplayMemberPath="Value"
+                                                  SelectedValuePath="Key"
+                                                  SelectedValue="{Binding Path=BearingType}"
+                                                  Height="26">
+                                        </ComboBox>
+                                        <ComboBox Margin="0" Grid.Column="2" ItemsSource="{Binding Source={StaticResource GrooveLocationTypes}}"
+                                                  DisplayMemberPath="Value"
+                                                  SelectedValuePath="Key"
+                                                  SelectedValue="{Binding Path=GrooveLocation}"
+                                                  Height="26">
+                                            <ComboBox.Visibility>
+                                                <Binding Path="BearingType"
+                                                         Converter="{StaticResource ValueInclusionToVisibilityConverter}"
+                                                         ConverterParameter="{StaticResource GrooveLocationTypes_Visible}"/>
+                                            </ComboBox.Visibility>
+                                        </ComboBox>
+                                        <ComboBox Margin="0" Grid.Column="3" ItemsSource="{Binding Source={StaticResource PumpingDirectionTypes}}"
+                                                  DisplayMemberPath="Value"
+                                                  SelectedValuePath="Key"
+                                                  SelectedValue="{Binding Path=PumpingDirection}"
+                                                  Height="26">
+                                            <ComboBox.Visibility>
+                                                <Binding Path="BearingType"
+                                                         Converter="{StaticResource ValueInclusionToVisibilityConverter}"
+                                                         ConverterParameter="{StaticResource PumpingDirectionTypes_Visible}"/>
+                                            </ComboBox.Visibility>
+                                        </ComboBox>
+                                        <ComboBox Margin="0" Grid.Column="4" ItemsSource="{Binding Source={StaticResource GrooveTypes}}"
+                                                  DisplayMemberPath="Value"
+                                                  SelectedValuePath="Key"
+                                                  SelectedValue="{Binding Path=GrooveType}"
+                                                  Height="26">
+                                            <ComboBox.Visibility>
+                                                <Binding Path="BearingType"
+                                                         Converter="{StaticResource ValueInclusionToVisibilityConverter}"
+                                                         ConverterParameter="{StaticResource GrooveTypes_Visible}"/>
+                                            </ComboBox.Visibility>
+                                        </ComboBox>
+                                      
+                                        <TextBlock Margin="0" Grid.Column="5" Text="Main Bearing">
+                                            <TextBlock.Visibility>
+                                                <Binding Path="PartNo"
+                                                         Converter="{StaticResource ValueInclusionToVisibilityConverter}"
+                                                         ConverterParameter="{StaticResource BearingIndexMain_Visible}"/>
+                                            </TextBlock.Visibility>
+                                        </TextBlock>
+                                        <TextBlock Margin="0" Grid.Column="5" Text="Sub Bearing">
+                                            <TextBlock.Visibility>
+                                                <Binding Path="PartNo"
+                                                         Converter="{StaticResource ValueInclusionToVisibilityConverter}"
+                                                         ConverterParameter="{StaticResource BearingIndexSub_Visible}"/>
+                                            </TextBlock.Visibility>
+                                        </TextBlock>
+
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center"></StackPanel>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                        </ListView>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="250"/>
+                </Grid.ColumnDefinitions>
+                <GroupBox Grid.Column="0" Header="Design prameter and operating condition">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="300"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="10"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="1" Margin="0" TextAlignment="Left" Text="Rotating speed :" />
+                            <TextBlock Grid.Column="5" Margin="0" TextAlignment="Right" Text="[" />
+                            <TextBlock Grid.Column="6" Margin="0" TextAlignment="Center" Text="rpm" />
+                            <TextBlock Grid.Column="7" Margin="0" TextAlignment="Left" Text="]" />
+                            <TextBox Grid.Column="3" TextAlignment="Center" >
+                                <TextBox.Text>
+                                    <Binding Path="RotatingSpeed"/>
+                                </TextBox.Text>
+                            </TextBox>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="300"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="10"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="1" Margin="0" TextAlignment="Left" Text="Viscosity :" />
+                            <TextBlock Grid.Column="5" Margin="0" TextAlignment="Right" Text="[" />
+                            <TextBlock Grid.Column="6" Margin="0" TextAlignment="Center" Text="Pas" />
+                            <TextBlock Grid.Column="7" Margin="0" TextAlignment="Left" Text="]" />
+                            <TextBox Grid.Column="3" TextAlignment="Center" >
+                                <TextBox.Text>
+                                    <Binding Path="Viscosity"/>
+                                </TextBox.Text>
+                            </TextBox>
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="300"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="10"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="1" Margin="0" TextAlignment="Left" Text="Misalignment angle along the X-axis :" />
+                            <TextBlock Grid.Column="5" Margin="0" TextAlignment="Right" Text="[" />
+                            <TextBlock Grid.Column="6" Margin="0" TextAlignment="Center" Text="rad" />
+                            <TextBlock Grid.Column="7" Margin="0" TextAlignment="Left" Text="]" />
+                            <TextBox Grid.Column="3" TextAlignment="Center" >
+                                <TextBox.Text>
+                                    <Binding Path="MisalignmentAngleXaxis"/>
+                                </TextBox.Text>
+                            </TextBox>
+                        </Grid>
+                        <Grid Grid.Row="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="300"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="10"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="1" Margin="0" TextAlignment="Left" Text="Misalignment angle along the Y-axis :" />
+                            <TextBlock Grid.Column="5" Margin="0" TextAlignment="Right" Text="[" />
+                            <TextBlock Grid.Column="6" Margin="0" TextAlignment="Center" Text="rad" />
+                            <TextBlock Grid.Column="7" Margin="0" TextAlignment="Left" Text="]" />
+                            <TextBox Grid.Column="3" TextAlignment="Center" >
+                                <TextBox.Text>
+                                    <Binding Path="MisalignmentAngleYaxis"/>
+                                </TextBox.Text>
+                            </TextBox>
+                        </Grid>
+                        <Grid Grid.Row="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="300"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="10"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="1" Margin="0" TextAlignment="Left" Text="Number of total division in circumferential direction :" />
+                            <TextBlock Grid.Column="5" Margin="0" TextAlignment="Right" Text="[" />
+                            <TextBlock Grid.Column="6" Margin="0" TextAlignment="Center" Text="-" />
+                            <TextBlock Grid.Column="7" Margin="0" TextAlignment="Left" Text="]" />
+                            <TextBox Grid.Column="3" TextAlignment="Center" >
+                                <TextBox.Text>
+                                    <Binding Path="NumberOfTotalDivision"/>
+                                </TextBox.Text>
+                            </TextBox>
+                        </Grid>
+                        <Grid Grid.Row="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="300"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="10"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="1" Margin="0" TextAlignment="Left" Text="Cavitation pressure :" />
+                            <TextBlock Grid.Column="5" Margin="0" TextAlignment="Right" Text="[" />
+                            <TextBlock Grid.Column="6" Margin="0" TextAlignment="Center" Text="Pa" />
+                            <TextBlock Grid.Column="7" Margin="0" TextAlignment="Left" Text="]" />
+                            <TextBox Grid.Column="3" TextAlignment="Center" >
+                                <TextBox.Text>
+                                    <Binding Path="CavitationPressure"/>
+                                </TextBox.Text>
+                            </TextBox>
+                        </Grid>
+                        <!--<Grid Grid.Row="6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="300"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="10"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="1" Margin="0" TextAlignment="Left" Text="Recirculation channel existence :" />
+                            <TextBlock Grid.Column="5" Margin="0" TextAlignment="Right" Text="[" />
+                            <TextBlock Grid.Column="6" Margin="0" TextAlignment="Center" Text="-" />
+                            <TextBlock Grid.Column="7" Margin="0" TextAlignment="Left" Text="]" />
+                            <ComboBox Grid.Column="3" Margin="0" 
+                              ItemsSource="{Binding Source={StaticResource ConnectingPositionTypes}}"
+                              DisplayMemberPath="Value"
+                              SelectedValuePath="Key"
+                              SelectedValue="{Binding Path=RecirculationChannelFlag}"  />
+                        </Grid>-->
+                    </Grid>
+                </GroupBox>
+
+                <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
+
+                    <Image Grid.Column="1"  ScrollViewer.CanContentScroll="True" Source="/Module;component/Resources/Main.png" />
+                    
+
+                </ScrollViewer>
+
+
+            </Grid>
+
+        </Grid>
+    </ScrollViewer>
+</UserControl>

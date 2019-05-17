@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="Module.Views.Mesh"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:models="clr-namespace:Module.Models"
+             xmlns:views="clr-namespace:Module.Views"
+             xmlns:viewmodels="clr-namespace:Module.ViewModels"
+             xmlns:converters="clr-namespace:Module.Converters"
+             xmlns:sharpGL="clr-namespace:SharpGL.WPF;assembly=SharpGL.WPF"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             ScrollViewer.VerticalScrollBarVisibility="Auto"
+             ScrollViewer.HorizontalScrollBarVisibility="Auto"
+             d:DataContext="{d:DesignInstance viewmodels:MeshViewModel}">
+    <xctk:BusyIndicator IsBusy="{Binding Path=IsBusy}">
+    <!--<ScrollViewer VerticalScrollBarVisibility="Auto">-->
+        <Grid Background="AntiqueWhite" ScrollViewer.CanContentScroll="True">
+            <!--<Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" MinHeight="200"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Margin="8, 0" Content="Mesh" FontSize="22" FontWeight="Bold" />-->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="250"/>
+                </Grid.ColumnDefinitions>
+                <sharpGL:OpenGLControl x:Name="MeshCanvas" OpenGLDraw="OpenGLControl_OpenGLDraw" OpenGLInitialized="OpenGLControl_OpenGLInitialized" MouseEnter="OpenGLControl_MouseEnter" MouseLeave="OpenGLControl_MouseLeave" SizeChanged="MeshCanvas_SizeChanged" />
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="1" Content="Mesh" Margin="10" Click="Button_Click"/>
+
+                    <Image Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Source="/Module;component/Resources/Keyexplain.png" />
+                </Grid>
+            </Grid>
+        </Grid>
+    <!--</ScrollViewer>-->
+    </xctk:BusyIndicator>
+</UserControl>

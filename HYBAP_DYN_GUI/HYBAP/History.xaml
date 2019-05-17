@@ -1,0 +1,61 @@
+﻿<Window x:Class="HYBAP.History"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Height="469" Width="632" Title="About HYBAP" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <LinearGradientBrush x:Key="brushTitle" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF3B676E" Offset="0"/>
+            <GradientStop Color="#FF74C4D1" Offset="0.495"/>
+            <GradientStop Color="#FF3B676E" Offset="0.993"/>
+        </LinearGradientBrush>
+    </Window.Resources>
+    <Grid Margin="0,0,0,0">
+        <Label Content="HYBAP" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Tahoma" FontSize="48" Foreground="{DynamicResource brushTitle}">
+            <Label.BitmapEffect>
+                <DropShadowBitmapEffect Direction="320" ShadowDepth="0" Opacity="0.5" Color="#FFDAFCFF" />
+            </Label.BitmapEffect>
+        </Label>
+        <Label x:Name="labelVersion" Content="" HorizontalAlignment="Left" Margin="467,-2,0,0" VerticalAlignment="Top" FontFamily="Tahoma" FontSize="60">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="0"/>
+                    <GradientStop Color="#FF1B4653" Offset="1"/>
+                    <GradientStop Color="#FF26657A" Offset="0.515"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+            <Label.BitmapEffect>
+                <DropShadowBitmapEffect Direction="320" ShadowDepth="0" Opacity="0.5" Color="#FFDAFCFF" />
+            </Label.BitmapEffect>
+        </Label>
+        <Grid Height="105" Margin="10,85,10,0" VerticalAlignment="Top">
+            <Border Background="#7FDEDEDE" CornerRadius="10">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,-5">
+                        <Label Content="HYBAP"/>
+                        <Label x:Name="labelPlatform" Content=""/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,-5">
+                        <Label Content="Version"/>
+                        <Label x:Name="labelProgramDetailedVersion" Content=""/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,-5">
+                        <Label Content="Copyright© 1999 -" Margin="0,0,-5,0"/>
+                        <Label x:Name="labelCopyrightYear" Content=""/>
+                        <Label Content="PREM"/>
+                    </StackPanel>
+                    <Label Content="All rights reserved." Margin="0,-5,0,0"/>
+                    <Label Content="This product is protected by korean Copyright law." />
+                </StackPanel>
+            </Border>
+        </Grid>
+        <Grid Height="202" Margin="10,195,10,43" Opacity="0.8">
+            <Expander Header="History and Open Source Software License">
+                <Grid Background="#FFE5E5E5">
+                    <WebBrowser x:Name="browserNotice"/>
+                </Grid>
+            </Expander>
+        </Grid>
+        <Button Content="System Information" HorizontalAlignment="Right" Margin="0,0,108,10" VerticalAlignment="Bottom" Width="143" Height="28" Click="ShowSystemInfoButton_Click"/>
+        <Button Content="Close" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="93" Height="28" Click="OKButton_Click"/>
+    </Grid>
+</Window>

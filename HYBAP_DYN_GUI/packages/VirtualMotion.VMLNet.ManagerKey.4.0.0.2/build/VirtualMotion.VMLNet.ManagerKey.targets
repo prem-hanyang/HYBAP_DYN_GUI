@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--<Target Name="UpdateLicenseManagerKey" BeforeTargets="BeforeBuild" Condition="'$(MSBuildProjectExtension)' == '.csproj'">
+    <Exec Command="&quot;$(ManagerKeyGenPath)&quot; &quot;$(ProjectDir)ManagerKeyGenOptions.xml&quot; -t &quot;$(ProjectDir)ManagerKeyInfo.cs&quot;" />
+  </Target>
+  <Target Name="UpdateLicenseManagerKeyCpp" BeforeTargets="PrepareForBuild" Condition="'$(MSBuildProjectExtension)' == '.vcxproj'">
+    <Exec Command="&quot;$(ManagerKeyGenPath)&quot; &quot;$(ProjectDir)ManagerKeyGenOptions.xml&quot; -t &quot;$(ProjectDir)ManagerKeyInfo.cpp&quot;" />
+  </Target>-->
+  <!--<ItemDefinitionGroup>  
+    <PreBuildEvent>  
+      <Command>start "Updating ManagerKeyInfo.cpp file..." /wait "$(ManagerKeyGenPath)" "$(ProjectDir)ManagerKeyGenOptions.xml" -t "$(ProjectDir)ManagerKeyInfo.cpp"</Command>
+      <Message>Updating ManagerKeyInfo.cpp file... </Message>  
+    </PreBuildEvent>  
+  </ItemDefinitionGroup>-->
+</Project>

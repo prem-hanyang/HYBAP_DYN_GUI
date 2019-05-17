@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompanyKeyGenOptions>
+	<LicenseVersion>6.0</LicenseVersion>
+	<!-- To use LicenseVersion information file, Remove LicenseVersion element above and use following LicenseVersionFilePath element.
+	Specifying file path relative to this file -->
+	<!--<LicenseVersionFilePath>..\shared\VersionInfo.txt</LicenseVersionFilePath>-->
+	<Features>
+		<!--<Feature></Feature>-->
+	</Features>
+</CompanyKeyGenOptions>

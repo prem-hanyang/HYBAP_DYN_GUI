@@ -1,0 +1,310 @@
+﻿<UserControl x:Class="Module.Views.StaticAndDynamicAnalysisResult"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:models="clr-namespace:Module.Models"
+             xmlns:views="clr-namespace:Module.Views"
+             xmlns:viewmodels="clr-namespace:Module.ViewModels"
+             xmlns:converters="clr-namespace:Module.Converters"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:local="clr-namespace:Module.Views"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d"              
+             d:DesignHeight="600" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <converters:IntToStringConverter x:Key="IntToStringConverter"/>
+        <converters:BoolInverterConverter x:Key="BoolInverterConverter"/>
+        <!-- TextBlock -->
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="4,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="TextAlignment" Value="Left" />
+            <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+        </Style>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Background="Bisque" ScrollViewer.CanContentScroll="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" MinHeight="200"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Margin="8, 0" Content="Result" FontSize="22" FontWeight="Bold" />
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="250"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <GroupBox Grid.Row="0" Header="Static analysis results">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="2" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Total number of parts : " />
+                                <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Height="27" TextAlignment="Right" IsReadOnly="True" >
+                                    <TextBox.Text>
+                                        <Binding Path="PartCount"/>
+                                    </TextBox.Text>
+                                </TextBox>
+                            </Grid>
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0" x:Name="PartNo" Grid.Column="0" TextAlignment="Center" Text="Part No." />
+                                <TextBlock Margin="0" x:Name="BearingType" Grid.Column="1" TextAlignment="Center" Text="Bearing type" />
+                                <TextBlock Margin="0" x:Name="FrictionTorque" Grid.Column="2" TextAlignment="Center" Text="Friction torque [Nm]" />
+                                <TextBlock Margin="0" x:Name="LoadCapacity" Grid.Column="3" TextAlignment="Center" Text="Load capacity [N]" />                        
+                            </Grid>
+                            <Grid Grid.Row="3">
+                                <ListView x:Name="lvPartResultList" ItemsSource="{Binding Path=Parts}">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="52"/>
+                                                    <ColumnDefinition Width="{Binding ElementName=BearingType, Path=ActualWidth}"/>
+                                                    <ColumnDefinition Width="{Binding ElementName=FrictionTorque, Path=ActualWidth}"/>
+                                                    <ColumnDefinition Width="{Binding ElementName=LoadCapacity, Path=ActualWidth}"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Margin="0" Grid.Column="0" Height="26" TextAlignment="Center" Text="{Binding Path=PartNo}" />
+                                                <TextBox Margin="0" Grid.Column="1" Height="26" TextAlignment="Center" IsReadOnly="True">
+                                                    <TextBox.Text>
+                                                        <Binding Path="BearingType"
+                                                                 Converter="{StaticResource IntToStringConverter}"
+                                                                 ConverterParameter="{x:Static models:BearingTypes.dic}" />
+                                                    </TextBox.Text>
+                                                </TextBox>
+                                                <TextBox Margin="0" Grid.Column="2" Height="26" TextAlignment="Center" Text="{Binding Path=ResultData.Friction_string}" IsReadOnly="True" />
+                                                <TextBox Margin="0" Grid.Column="3" Height="26" TextAlignment="Center" Text="{Binding Path=ResultData.LoadCapacity_string}" IsReadOnly="True" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                    <ListView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center"></StackPanel>
+                                        </ItemsPanelTemplate>
+                                    </ListView.ItemsPanel>
+                                </ListView>
+                            </Grid>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.Row="1" Header="Dynamic analysis results" IsEnabled="{Binding DynamicResultReady}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="2" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="4" />
+                                    <RowDefinition Height="200" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Margin="0" TextAlignment="Center" Text="Stiffness matrix" />
+                                <Grid Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="4" />
+                                        <ColumnDefinition Width="86" />
+                                        <ColumnDefinition Width="86" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="4" />
+                                    </Grid.ColumnDefinitions>
+                                    <RadioButton x:Name="rbTotalPartStiffness" Grid.Column="1" Margin="0" VerticalAlignment="Center" IsChecked="{Binding ShowTotalStiffness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="Total part" Checked="rbTotalPartStiffness_Checked" />
+                                    <RadioButton x:Name="rbSelectPartStiffness" Grid.Column="2" Margin="0" VerticalAlignment="Center" IsChecked="{Binding ShowTotalStiffness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolInverterConverter}}" Content="Select part :" Checked="rbSelectPartStiffness_Checked" />
+                                    <ComboBox x:Name="SelectedPartStiffness" Grid.Column="3" ItemsSource="{Binding Parts}"
+                                            DisplayMemberPath="PartNo"
+                                            SelectedValuePath="PartResultViewModel"
+                                            IsEnabled="{Binding ShowTotalStiffness, Converter={StaticResource BoolInverterConverter}}" SelectionChanged="SelectedPartStiffness_SelectionChanged">
+                                    </ComboBox>
+                                </Grid>
+                                <Grid Grid.Row="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="10" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="10" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Viewbox Grid.Row="0" Grid.RowSpan="5" Grid.Column="0" Stretch="Uniform">
+                                        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="[" RenderTransformOrigin="0.0,0.6">
+                                            <TextBlock.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform ScaleY="22"/>
+                                                </TransformGroup>
+                                            </TextBlock.RenderTransform>
+                                        </TextBlock>
+                                    </Viewbox>
+                                    <Viewbox Grid.Row="0" Grid.RowSpan="5" Grid.Column="6" Stretch="Uniform">
+                                        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="]" RenderTransformOrigin="0.0,0.6">
+                                            <TextBlock.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform ScaleY="22"/>
+                                                </TransformGroup>
+                                            </TextBlock.RenderTransform>
+                                        </TextBlock>
+                                    </Viewbox>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kxx" />
+                                    <TextBlock Grid.Row="0" Grid.Column="2" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kxy" />
+                                    <TextBlock Grid.Row="0" Grid.Column="3" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kxz" />
+                                    <TextBlock Grid.Row="0" Grid.Column="4" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kxθx" />
+                                    <TextBlock Grid.Row="0" Grid.Column="5" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kxθy" />
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kyx" />
+                                    <TextBlock Grid.Row="1" Grid.Column="2" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kyy" />
+                                    <TextBlock Grid.Row="1" Grid.Column="3" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kyz" />
+                                    <TextBlock Grid.Row="1" Grid.Column="4" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kyθx" />
+                                    <TextBlock Grid.Row="1" Grid.Column="5" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kyθy" />
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kzx" />
+                                    <TextBlock Grid.Row="2" Grid.Column="2" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kzy" />
+                                    <TextBlock Grid.Row="2" Grid.Column="3" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kzz" />
+                                    <TextBlock Grid.Row="2" Grid.Column="4" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kzθx" />
+                                    <TextBlock Grid.Row="2" Grid.Column="5" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kzθy" />
+                                    <TextBlock Grid.Row="3" Grid.Column="1" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kθxx" />
+                                    <TextBlock Grid.Row="3" Grid.Column="2" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kθxy" />
+                                    <TextBlock Grid.Row="3" Grid.Column="3" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kθxz" />
+                                    <TextBlock Grid.Row="3" Grid.Column="4" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kθxθx" />
+                                    <TextBlock Grid.Row="3" Grid.Column="5" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kθxθy" />
+                                    <TextBlock Grid.Row="4" Grid.Column="1" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kθyx" />
+                                    <TextBlock Grid.Row="4" Grid.Column="2" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kθyy" />
+                                    <TextBlock Grid.Row="4" Grid.Column="3" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kθyz" />
+                                    <TextBlock Grid.Row="4" Grid.Column="4" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kθyθx" />
+                                    <TextBlock Grid.Row="4" Grid.Column="5" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Kθyθy" />
+                                </Grid>
+                            </Grid>
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="2" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="4" />
+                                    <RowDefinition Height="200" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Margin="0" TextAlignment="Center" Text="Damping matrix" />
+                                <Grid Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="4" />
+                                        <ColumnDefinition Width="86" />
+                                        <ColumnDefinition Width="86" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="4" />
+                                    </Grid.ColumnDefinitions>
+                                    <RadioButton x:Name="rbTotalPartDamping" Grid.Column="1" Margin="0" VerticalAlignment="Center" IsChecked="{Binding ShowTotalDamping, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="Total part" Checked="rbTotalPartDamping_Checked" />
+                                    <RadioButton x:Name="rbSelectPartDamping" Grid.Column="2" Margin="0" VerticalAlignment="Center" IsChecked="{Binding ShowTotalDamping, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolInverterConverter}}" Content="Select part :" Checked="rbSelectPartDamping_Checked" />
+                                    <ComboBox x:Name="SelectedPartDamping" Grid.Column="3" ItemsSource="{Binding Parts}"
+                                            DisplayMemberPath="PartNo"
+                                            SelectedValuePath="PartResultViewModel"
+                                            IsEnabled="{Binding ShowTotalDamping, Converter={StaticResource BoolInverterConverter}}" SelectionChanged="SelectedPartDamping_SelectionChanged">
+                                    </ComboBox>
+                                </Grid>
+                                <Grid Grid.Row="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="10" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="10" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Viewbox Grid.Row="0" Grid.RowSpan="5" Grid.Column="0" Stretch="Uniform">
+                                        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="[" RenderTransformOrigin="0.0,0.6">
+                                            <TextBlock.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform ScaleY="22"/>
+                                                </TransformGroup>
+                                            </TextBlock.RenderTransform>
+                                        </TextBlock>
+                                    </Viewbox>
+                                    <Viewbox Grid.Row="0" Grid.RowSpan="5" Grid.Column="6" Stretch="Uniform">
+                                        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="]" RenderTransformOrigin="0.0,0.6">
+                                            <TextBlock.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform ScaleY="22"/>
+                                                </TransformGroup>
+                                            </TextBlock.RenderTransform>
+                                        </TextBlock>
+                                    </Viewbox>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Cxx" />
+                                    <TextBlock Grid.Row="0" Grid.Column="2" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Cxy" />
+                                    <TextBlock Grid.Row="0" Grid.Column="3" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Cxz" />
+                                    <TextBlock Grid.Row="0" Grid.Column="4" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Cxθx" />
+                                    <TextBlock Grid.Row="0" Grid.Column="5" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Cxθy" />
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Cyx" />
+                                    <TextBlock Grid.Row="1" Grid.Column="2" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Cyy" />
+                                    <TextBlock Grid.Row="1" Grid.Column="3" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Cyz" />
+                                    <TextBlock Grid.Row="1" Grid.Column="4" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Cyθx" />
+                                    <TextBlock Grid.Row="1" Grid.Column="5" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Cyθy" />
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Czx" />
+                                    <TextBlock Grid.Row="2" Grid.Column="2" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Czy" />
+                                    <TextBlock Grid.Row="2" Grid.Column="3" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Czz" />
+                                    <TextBlock Grid.Row="2" Grid.Column="4" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Czθx" />
+                                    <TextBlock Grid.Row="2" Grid.Column="5" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Czθy" />
+                                    <TextBlock Grid.Row="3" Grid.Column="1" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Cθxx" />
+                                    <TextBlock Grid.Row="3" Grid.Column="2" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Cθxy" />
+                                    <TextBlock Grid.Row="3" Grid.Column="3" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Cθxz" />
+                                    <TextBlock Grid.Row="3" Grid.Column="4" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Cθxθx" />
+                                    <TextBlock Grid.Row="3" Grid.Column="5" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Cθxθy" />
+                                    <TextBlock Grid.Row="4" Grid.Column="1" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Cθyx" />
+                                    <TextBlock Grid.Row="4" Grid.Column="2" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Cθyy" />
+                                    <TextBlock Grid.Row="4" Grid.Column="3" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Cθyz" />
+                                    <TextBlock Grid.Row="4" Grid.Column="4" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Cθyθx" />
+                                    <TextBlock Grid.Row="4" Grid.Column="5" Margin="1,0,1,0" VerticalAlignment="Center" TextAlignment="Center" x:Name="Cθyθy" />
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Margin="0" VerticalAlignment="Center"   TextAlignment="Center" Text=" " />
+                    <TextBlock Grid.Row="1" Grid.Column="2" Margin="0" VerticalAlignment="Center"   TextAlignment="Center" Text="Unit of Dynamic coefficients" />
+                    <Image Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Source="/Module;component/Resources/Dynamic_Result_Unit.png" />
+                </Grid>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

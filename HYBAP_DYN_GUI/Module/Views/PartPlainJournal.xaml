@@ -1,0 +1,385 @@
+﻿ <UserControl x:Class="Module.Views.PartPlainJournal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="480" d:DesignWidth="800"
+             xmlns:models="clr-namespace:Module.Models"
+             xmlns:views="clr-namespace:Module.Views"
+             xmlns:viewmodels="clr-namespace:Module.ViewModels"
+             xmlns:converters="clr-namespace:Module.Converters"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="ConnectingPositionTypes"
+                            ObjectType="{x:Type models:ConnectingPositionTypes}"
+                            MethodName="GetConnectingPositionTypes"/>
+        <ObjectDataProvider x:Key="RoughnessPatternTypes"
+                            ObjectType="{x:Type models:RoughnessPatternTypes}"
+                            MethodName="GetRoughnessPatternTypes"/>
+    </UserControl.Resources>
+
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="250"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="250" />
+                <RowDefinition Height="110" />
+                <RowDefinition Height="120" />
+            </Grid.RowDefinitions>
+            <GroupBox Grid.Column="0" Header="Plain Journal Beaeing [ type 1 ]">
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Margin="0" TextAlignment="Left" Text="Radius of journal bearing :" />
+                        <TextBox Grid.Column="3" TextAlignment="Center" >
+                            <TextBox.Text>
+                                <Binding Path="RadiusOfJournal"/>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBlock Grid.Column="5" Margin="0" TextAlignment="Right" Text="[" />
+                        <TextBlock Grid.Column="6" Margin="0" TextAlignment="Center" Text="m" />
+                        <TextBlock Grid.Column="7" Margin="0" TextAlignment="Left" Text="]" />
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Margin="0" TextAlignment="Left" Text="Clearance of journal bearing :" />
+                        <TextBox Grid.Column="3" TextAlignment="Center" >
+                            <TextBox.Text>
+                                <Binding Path="ClearanceOfJournal"/>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBlock Grid.Column="5" Margin="0" TextAlignment="Right" Text="[" />
+                        <TextBlock Grid.Column="6" Margin="0" TextAlignment="Center" Text="m" />
+                        <TextBlock Grid.Column="7" Margin="0" TextAlignment="Left" Text="]" />
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Margin="0" TextAlignment="Left" Text="Length from center line to lower boundary :" />
+                        <TextBox Grid.Column="3" TextAlignment="Center" >
+                            <TextBox.Text>
+                                <Binding Path="LengthCenterLower"/>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBlock Grid.Column="5" Margin="0" TextAlignment="Right" Text="[" />
+                        <TextBlock Grid.Column="6" Margin="0" TextAlignment="Center" Text="m" />
+                        <TextBlock Grid.Column="7" Margin="0" TextAlignment="Left" Text="]" />
+                    </Grid>
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Margin="0" TextAlignment="Left" Text="Length from center line to upper boundary :" />
+                        <TextBox Grid.Column="3" TextAlignment="Center" >
+                            <TextBox.Text>
+                                <Binding Path="LengthCenterUpper"/>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBlock Grid.Column="5" Margin="0" TextAlignment="Right" Text="[" />
+                        <TextBlock Grid.Column="6" Margin="0" TextAlignment="Center" Text="m" />
+                        <TextBlock Grid.Column="7" Margin="0" TextAlignment="Left" Text="]" />
+                    </Grid>
+                    <Grid Grid.Row="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Margin="0" TextAlignment="Left" Text="Z coordinate of center from origin :" />
+                        <TextBox Grid.Column="3" TextAlignment="Center" >
+                            <TextBox.Text>
+                                <Binding Path="ZCoordinate"/>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBlock Grid.Column="5" Margin="0" TextAlignment="Right" Text="[" />
+                        <TextBlock Grid.Column="6" Margin="0" TextAlignment="Center" Text="m" />
+                        <TextBlock Grid.Column="7" Margin="0" TextAlignment="Left" Text="]" />
+                    </Grid>
+                    <Grid Grid.Row="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Margin="0" TextAlignment="Left" Text="Reservoir depth :" />
+                        <TextBox Grid.Column="3" TextAlignment="Center" >
+                            <TextBox.Text>
+                                <Binding Path="ReservoirDepth"/>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBlock Grid.Column="5" Margin="0" TextAlignment="Right" Text="[" />
+                        <TextBlock Grid.Column="6" Margin="0" TextAlignment="Center" Text="m" />
+                        <TextBlock Grid.Column="7" Margin="0" TextAlignment="Left" Text="]" />
+                    </Grid>
+                    <Grid Grid.Row="6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Margin="0" TextAlignment="Left" Text="Eccentricity ratio, e :" />
+                        <TextBox Grid.Column="3" TextAlignment="Center" >
+                            <TextBox.Text>
+                                <Binding Path="EccentricityRatio"/>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBlock Grid.Column="5" Margin="0" TextAlignment="Right" Text="[" />
+                        <TextBlock Grid.Column="6" Margin="0" TextAlignment="Center" Text="-" />
+                        <TextBlock Grid.Column="7" Margin="0" TextAlignment="Left" Text="]" />
+                    </Grid>
+                    <Grid Grid.Row="7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Margin="0" TextAlignment="Left" Text="Number of z-division of lower part :" />
+                        <TextBox Grid.Column="3" TextAlignment="Center" >
+                            <TextBox.Text>
+                                <Binding Path="NumberOfZDivisionOfLower"/>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBlock Grid.Column="5" Margin="0" TextAlignment="Right" Text="[" />
+                        <TextBlock Grid.Column="6" Margin="0" TextAlignment="Center" Text="-" />
+                        <TextBlock Grid.Column="7" Margin="0" TextAlignment="Left" Text="]" />
+                    </Grid>
+                    <Grid Grid.Row="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Margin="0" TextAlignment="Left" Text="Number of z-division of upper part :" />
+                        <TextBox Grid.Column="3" TextAlignment="Center">
+                            <TextBox.Text>
+                                <Binding Path="NumberOfZDivisionOfUpper"/>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBlock Grid.Column="5" Margin="0" TextAlignment="Right" Text="[" />
+                        <TextBlock Grid.Column="6" Margin="0" TextAlignment="Center" Text="-" />
+                        <TextBlock Grid.Column="7" Margin="0" TextAlignment="Left" Text="]" />
+                    </Grid>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Grid.Row="1" Header="Roughness parameters">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Margin="0" TextAlignment="Left" Text="Roughness of rotating part :" />
+                        <TextBox Grid.Column="3" TextAlignment="Center" >
+                            <TextBox.Text>
+                                <Binding Path="RoughnessOfRotatingPart"/>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBlock Grid.Column="5" Margin="0" TextAlignment="Right" Text="[" />
+                        <TextBlock Grid.Column="6" Margin="0" TextAlignment="Center" Text="m" />
+                        <TextBlock Grid.Column="7" Margin="0" TextAlignment="Left" Text="]" />
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Margin="0" TextAlignment="Left" Text="Roughness of stationary part :" />
+                        <TextBox Grid.Column="3" TextAlignment="Center" >
+                            <TextBox.Text>
+                                <Binding Path="RoughnessOfStationaryPart"/>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBlock Grid.Column="5" Margin="0" TextAlignment="Right" Text="[" />
+                        <TextBlock Grid.Column="6" Margin="0" TextAlignment="Center" Text="m" />
+                        <TextBlock Grid.Column="7" Margin="0" TextAlignment="Left" Text="]" />
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Margin="0" TextAlignment="Left" Text="Roughness pattern :" />
+                        
+                        <ComboBox Grid.Column="3" Margin="0" 
+                              ItemsSource="{Binding Source={StaticResource RoughnessPatternTypes}}"
+                              DisplayMemberPath="Value"
+                              SelectedValuePath="Key"
+                              SelectedValue="{Binding Path=RoughnessPattern}" />
+                        
+                        <TextBlock Grid.Column="5" Margin="0" TextAlignment="Right" Text="[" />
+                        <TextBlock Grid.Column="6" Margin="0" TextAlignment="Center" Text="-" />
+                        <TextBlock Grid.Column="7" Margin="0" TextAlignment="Left" Text="]" />
+                    </Grid>
+                </Grid>
+            </GroupBox>
+            
+            <GroupBox Grid.Row="3" Header="Connectivity condition">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="2" Margin="0" TextAlignment="Center" VerticalAlignment="Center" Text="Connecting part number" />
+                        <TextBlock Grid.Column="3" Margin="0" TextAlignment="Center" VerticalAlignment="Center" Text="Connecting position" />
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="0.8*"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="0.8*"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="20"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Margin="0" TextAlignment="Left" Text="Upper boundary :" />
+                        <TextBox Grid.Column="3" TextAlignment="Center">
+                            <TextBox.Text>
+                                <Binding Path="ConnectingPartOfUpper"/>
+                            </TextBox.Text>
+                        </TextBox>
+                        <ComboBox Grid.Column="5" Margin="0" 
+                              ItemsSource="{Binding Source={StaticResource ConnectingPositionTypes}}"
+                              DisplayMemberPath="Value"
+                              SelectedValuePath="Key"
+                              SelectedValue="{Binding Path=ConnectingPositionOfUpper}" />
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="0.8*"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="0.8*"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="20"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Margin="0" TextAlignment="Left" Text="Lower boundary :" />
+                        <TextBox Grid.Column="3" TextAlignment="Center">
+                            <TextBox.Text>
+                                <Binding Path="ConnectingPartOfLower"/>
+                            </TextBox.Text>
+                        </TextBox>
+                        <ComboBox Grid.Column="5" Margin="0" 
+                              ItemsSource="{Binding Source={StaticResource ConnectingPositionTypes}}"
+                              DisplayMemberPath="Value"
+                              SelectedValuePath="Key"
+                              SelectedValue="{Binding Path=ConnectingPositionOfLower}" />
+                    </Grid>
+                </Grid>
+            </GroupBox>
+
+        </Grid>
+        <Image Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Source="/Module;component/Resources/Type1.png" />
+    </Grid>
+</UserControl>

@@ -1,0 +1,83 @@
+﻿<mahapps:MetroWindow x:Class="HYBAP.Shell"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:HYBAP"
+        xmlns:prism="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        xmlns:mahapps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:Fluent="urn:fluent-ribbon"
+        xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Xceed.Wpf.AvalonDock"
+        Icon="Main.ico"
+        Title="HYBAP" Height="768" Width="1100" MinWidth="1000" MinHeight="300"
+        RenderOptions.ClearTypeHint="Enabled"
+        TitleCaps="False"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Normal" KeyDown="MetroWindow_KeyDown" MouseMove="MetroWindow_MouseMove" MouseLeftButtonUp="MetroWindow_MouseLeftButtonUp" MouseRightButtonUp="MetroWindow_MouseRightButtonUp" MouseLeftButtonDown="MetroWindow_MouseLeftButtonDown" MouseRightButtonDown="MetroWindow_MouseRightButtonDown">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Fluent:Ribbon Grid.Row="0" Height="80">
+            <!--Backstage-->
+            <Fluent:Ribbon.Menu>
+                <Fluent:Backstage>
+                </Fluent:Backstage>
+            </Fluent:Ribbon.Menu>
+            <!--Tabs-->
+            <Fluent:RibbonTabItem Header="Home">
+                <Fluent:RibbonGroupBox Header="">
+                    <Fluent:Button Header="New"
+                                   Command="{Binding NewCommand}"
+                                   LargeIcon="/HYBAP;component/Resources/New.png" />
+                    <Fluent:Button Header="Open"
+                                   Command="{Binding OpenCommand}"
+                                   LargeIcon="/HYBAP;component/Resources/Open.png" />
+                    <Fluent:Button Header="Save"
+                                    Command="{Binding SaveCommand}"
+                                    LargeIcon="/HYBAP;component/Resources/Save.png" />
+                    <Fluent:Button Header="SaveAs"
+                                    Command="{Binding SaveAsCommand}"
+                                    LargeIcon="/HYBAP;component/Resources/SaveAs.png" />
+                    <Fluent:Button Header="Setting"
+                                   Command="{Binding SettingCommand}"
+                                   LargeIcon="/HYBAP;component/Resources/Setting.png" />
+                    <Fluent:Button Header="Exit"
+                                   Command="{Binding ExitCommand}"
+                                   LargeIcon="/HYBAP;component/Resources/Exit.png" />
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="">
+                    <Fluent:Button Header="History"
+                                   Command="{Binding HistoryCommand}"
+                                   LargeIcon="/HYBAP;component/Resources/history.png" />
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+        </Fluent:Ribbon>
+        <Grid Grid.Row="1">
+            <Border BorderThickness="2,2,2,0" BorderBrush="#FFF0F0F0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock VerticalAlignment="Center" Margin="10,0">Root Directory</TextBlock>
+                    <Border Grid.Column="1" BorderBrush="DarkGray" BorderThickness="1" Height="23">
+                        <TextBlock Margin="3" Text="{Binding RootDirectory, UpdateSourceTrigger=PropertyChanged}" />
+                    </Border>
+                    <!--<TextBox Grid.Column="1" IsReadOnly="True" Text="{Binding RootDirectory, UpdateSourceTrigger=PropertyChanged}" />-->
+                </Grid>
+            </Border>
+        </Grid>
+        <local:AnimatedTabControl
+                    Grid.Row="2"
+                    x:Name="MainTab"
+                    SelectedIndex="0"  
+                    VerticalAlignment="Stretch"
+                    ItemContainerStyle="{StaticResource TabHeaderStyle}" 
+                    Background="{StaticResource headerBarBG}" 
+                    prism:RegionManager.RegionName="ContentRegion"
+                    IsEnabled="{Binding Path=IsEnableTab}"
+                    Margin="5,5,4.6,5.4" Grid.ColumnSpan="2" SelectionChanged="MainTab_SelectionChanged"/>
+    </Grid>
+</mahapps:MetroWindow>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="InjectReference" BeforeTargets="ResolveAssemblyReferences">
+    <ItemGroup Condition="('$(Platform.ToLower())' == 'x86' or '$(Platform.ToLower())' == 'win32') and '$(TargetFrameworkVersion)'=='v4.5'">
+      <Reference Include="VMLNet">
+        <HintPath>$(MSBuildThisFileDirectory)..\lib\net45\Win32\$(Configuration)\VMLNet.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+    <ItemGroup Condition="('$(Platform.ToLower())' == 'x64' or '$(Platform.ToLower())' == 'anycpu' ) and '$(TargetFrameworkVersion)'=='v4.5'">
+      <Reference Include="VMLNet">
+        <HintPath>$(MSBuildThisFileDirectory)..\lib\net45\x64\$(Configuration)\VMLNet.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+    <ItemGroup Condition="('$(Platform.ToLower())' == 'x86' or '$(Platform.ToLower())' == 'win32') and '$(TargetFrameworkVersion)'=='v4.7.1'">
+      <Reference Include="VMLNet">
+        <HintPath>$(MSBuildThisFileDirectory)..\lib\net471\Win32\$(Configuration)\VMLNet.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+    <ItemGroup Condition="('$(Platform.ToLower())' == 'x64' or '$(Platform.ToLower())' == 'anycpu' ) and '$(TargetFrameworkVersion)'=='v4.7.1'">
+      <Reference Include="VMLNet">
+        <HintPath>$(MSBuildThisFileDirectory)..\lib\net471\x64\$(Configuration)\VMLNet.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+  </Target>
+	<ItemGroup Condition="('$(Platform.ToLower())' == 'x86' or '$(Platform.ToLower())' == 'win32') and '$(TargetFrameworkVersion)'=='v4.5' and '$(MSBuildProjectExtension)' == '.vcxproj'">
+	  <Reference Include="VMLNet">
+		<HintPath>$(MSBuildThisFileDirectory)..\lib\native\net45\Win32\$(Configuration)\VMLNet.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+	<ItemGroup Condition="('$(Platform.ToLower())' == 'x64' or '$(Platform.ToLower())' == 'anycpu' ) and '$(TargetFrameworkVersion)'=='v4.5' and '$(MSBuildProjectExtension)' == '.vcxproj'">
+	  <Reference Include="VMLNet">
+		<HintPath>$(MSBuildThisFileDirectory)..\lib\native\net45\x64\$(Configuration)\VMLNet.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+	<ItemGroup Condition="('$(Platform.ToLower())' == 'x86' or '$(Platform.ToLower())' == 'win32') and '$(TargetFrameworkVersion)'=='v4.7.1' and '$(MSBuildProjectExtension)' == '.vcxproj'">
+	  <Reference Include="VMLNet">
+		<HintPath>$(MSBuildThisFileDirectory)..\lib\native\net471\Win32\$(Configuration)\VMLNet.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+	<ItemGroup Condition="('$(Platform.ToLower())' == 'x64' or '$(Platform.ToLower())' == 'anycpu' ) and '$(TargetFrameworkVersion)'=='v4.7.1' and '$(MSBuildProjectExtension)' == '.vcxproj'">
+	  <Reference Include="VMLNet">
+		<HintPath>$(MSBuildThisFileDirectory)..\lib\native\net471\x64\$(Configuration)\VMLNet.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+</Project>

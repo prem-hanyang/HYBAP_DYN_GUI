@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LicenseManagerKeyGenOptions allow_multiple_checkout="false" allow_share_license="false" support_disable_feature="true" ues_fqdn="false">
+	<LicenseVersion>6.0</LicenseVersion>
+	<!-- To use LicenseVersion information file, Remove LicenseVersion element above and use following LicenseVersionFilePath element.
+	Specifying file path relative to this file -->
+	<!--<LicenseVersionFilePath>..\shared\VersionInfo.txt</LicenseVersionFilePath>-->
+	<!-- Share License Feature functionality is not supported yet -->
+	<!-- <FeatureForShareLicense />-->
+	<DisableFeatureInfo>
+		<CompanyName>VirtualMotion, Inc.</CompanyName>
+		<ProductName>DAFUL</ProductName>
+		<ProductVersion>6.2</ProductVersion>
+		<!-- To use ProductVersion information file, Remove ProductVersion element above and use following LicenseVersionFilePath element.
+		Specifying file path relative to this file -->
+		<!--<ProductVersionFilePath>..\shared\VersionInfo.txt</ProductVersionFilePath>-->
+	</DisableFeatureInfo>
+	<OpenLicense use_dev="true" use_runtime="true">
+		<OpenDev>DFPRE_API_DEVELOPMENT</OpenDev>
+		<OpenRuntime>DFPRE_API_RUNTIME</OpenRuntime>
+	</OpenLicense>
+	<DefineName>VMLICENSING_LICENSEMANAGER_KEY</DefineName>
+	<PCHName>stdafx.h</PCHName>
+</LicenseManagerKeyGenOptions>
